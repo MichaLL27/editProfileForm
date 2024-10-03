@@ -1,1 +1,15 @@
-<h1>DONE</h1>
+<div class="mainEditProfileContainer">
+  <h1>Profile Form Edit</h1>
+  <mat-card>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <!-- First Name -->
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" required />
+        <mat-error *ngIf="profileForm.get('firstName')?.hasError('required')">
+          First Name is required
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-card>
+</div>
