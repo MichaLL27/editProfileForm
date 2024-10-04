@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -11,6 +11,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { UserServiceService } from './service/user-service.service';
+
 @Component({
   selector: 'app-user-profile-edit',
   standalone: true,
@@ -26,8 +28,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './user-profile-edit.component.html',
   styleUrl: './user-profile-edit.component.scss',
 })
-export class UserProfileEditComponent {
-  profileForm = new FormGroup({
+export class UserProfileEditComponent implements OnInit {
+  constructor(private userServiceService: UserServiceService) {}
+  ngOnInit(): void {
+    this.userServiceService.getUserFormData().subscribe((data) => {
+      this.userEditProfileForm.patchValue(data);
+    });
+  }
+
+  userEditProfileForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -36,13 +45,13 @@ export class UserProfileEditComponent {
   });
 
   onSubmit() {
-    if (this.profileForm.valid) {
-      console.log(this.profileForm.value);
+    if (this.userEditProfileForm.valid) {
+      console.log(this.userEditProfileForm.value);
     }
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
-    this.profileForm.patchValue({ profilePicture: file });
+    const file = event?.target?.files[0];
+    if (file) this.userEditProfileForm.patchValue({ profilePicture: file });
   }
 }
