@@ -46,12 +46,6 @@ export class UserProfileEditComponent implements OnInit {
     profilePicture: new FormControl(null),
   });
 
-  onSubmit() {
-    if (this.userEditProfileForm.valid) {
-      console.log(this.userEditProfileForm.value);
-    }
-  }
-
   onFileSelected(event: any) {
     let reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
@@ -59,6 +53,15 @@ export class UserProfileEditComponent implements OnInit {
       const imgUrl = event.target.result;
       this.userEditProfileForm.patchValue({ profilePicture: imgUrl });
     };
-    console.log(this.userEditProfileForm.value);
+  }
+
+  onSubmit() {
+    if (this.userEditProfileForm.valid) {
+      this.userServiceService
+        .updateUserFormData(this.userEditProfileForm.value)
+        .subscribe((updatedData) => {
+          console.log('Form submitted and data updated:', updatedData);
+        });
+    }
   }
 }

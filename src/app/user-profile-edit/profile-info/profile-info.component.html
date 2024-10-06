@@ -1,8 +1,12 @@
 <div class="saveProfileContainer">
   <h1 class="profileTitle">Profile</h1>
 
-  <div>
-    <img src="" alt="" />
+  <div class="imageCon">
+    <img
+      class="image"
+      [src]="profileInfo?.profilePicture || 'assets/images/default.png'"
+      alt="defaultImg"
+    />
   </div>
 
   <div class="profileInfoContainer">

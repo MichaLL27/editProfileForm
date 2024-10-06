@@ -5,6 +5,20 @@
     text-align: center;
   }
 
+  .imageCon {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .image {
+      width: 90%;
+      height: 90%;
+      border-radius: 50%;
+    }
+  }
+
   .profileInfoContainer {
     display: flex;
     flex-direction: column;

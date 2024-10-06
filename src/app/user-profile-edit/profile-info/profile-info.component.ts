@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserServiceService } from '../service/user-service.service';
 import { CommonModule } from '@angular/common';
+import { log } from 'console';
 
 @Component({
   selector: 'app-profile-info',
@@ -16,7 +17,6 @@ export class ProfileInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.userServiceService.getUserFormData().subscribe((x) => {
-      console.log(x);
       this.profileInfo = x;
     });
   }
