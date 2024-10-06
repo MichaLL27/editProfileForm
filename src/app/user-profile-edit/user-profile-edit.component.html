@@ -1,73 +1,81 @@
 <div class="userProfileEditContainer">
-  <mat-card class="user-profile-card">
-    <mat-card-title>Edit User Profile</mat-card-title>
-    <form [formGroup]="userEditProfileForm" (ngSubmit)="onSubmit()">
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>First Name</mat-label>
-        <input matInput formControlName="firstName" required />
-        <mat-error
-          *ngIf="userEditProfileForm.get('firstName')?.hasError('required')"
-        >
-          First Name is required
-        </mat-error>
-      </mat-form-field>
+  <div class="bothContainer">
+    <mat-card class="user-profile-card">
+      <mat-card-title>Edit User Profile</mat-card-title>
+      <form [formGroup]="userEditProfileForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>First Name</mat-label>
+          <input matInput formControlName="firstName" required />
+          <mat-error
+            *ngIf="userEditProfileForm.get('firstName')?.hasError('required')"
+          >
+            First Name is required
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Last Name</mat-label>
-        <input matInput formControlName="lastName" required />
-        <mat-error
-          *ngIf="userEditProfileForm.get('lastName')?.hasError('required')"
-        >
-          Last Name is required
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Last Name</mat-label>
+          <input matInput formControlName="lastName" required />
+          <mat-error
+            *ngIf="userEditProfileForm.get('lastName')?.hasError('required')"
+          >
+            Last Name is required
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" required />
-        <mat-error
-          *ngIf="userEditProfileForm.get('email')?.hasError('required')"
-        >
-          Email is required
-        </mat-error>
-        <mat-error *ngIf="userEditProfileForm.get('email')?.hasError('email')">
-          Please Enter Valid Email
-        </mat-error>
-      </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required />
+          <mat-error
+            *ngIf="userEditProfileForm.get('email')?.hasError('required')"
+          >
+            Email is required
+          </mat-error>
+          <mat-error
+            *ngIf="userEditProfileForm.get('email')?.hasError('email')"
+          >
+            Please Enter Valid Email
+          </mat-error>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Phone Number (optional)</mat-label>
-        <input matInput formControlName="phoneNumber" />
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Phone Number (optional)</mat-label>
+          <input matInput formControlName="phoneNumber" />
 
-        <mat-error
-          *ngIf="userEditProfileForm.get('email')?.hasError('phoneNumber')"
-        >
-          Please Enter Valid Email
-        </mat-error>
-      </mat-form-field>
+          <mat-error
+            *ngIf="userEditProfileForm.get('email')?.hasError('phoneNumber')"
+          >
+            Please Enter Valid Email
+          </mat-error>
+        </mat-form-field>
 
-      <div class="file-input-container">
-        <label>Profile Picture (optional)</label>
-        <input type="file" (change)="onFileSelected($event)" />
-      </div>
+        <div class="file-input-container">
+          <label>Profile Picture (optional)</label>
+          <input type="file" (change)="onFileSelected($event)" />
+        </div>
 
-      <div class="button-group">
-        <button
-          color="primary"
-          type="submit"
-          [disabled]="!userEditProfileForm.valid"
-        >
-          Save
-        </button>
+        <div class="button-group">
+          <button
+            color="primary"
+            type="submit"
+            class="saveButton"
+            [disabled]="!userEditProfileForm.valid"
+          >
+            Save
+          </button>
 
-        <button
-          color="primary"
-          type="submit"
-          [disabled]="!userEditProfileForm.valid"
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
-  </mat-card>
+          <button
+            color="primary"
+            type="submit"
+            class="cancelButton"
+            [disabled]="!userEditProfileForm.valid"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </mat-card>
+
+    <app-profile-info />
+  </div>
 </div>

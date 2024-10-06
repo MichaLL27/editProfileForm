@@ -1,0 +1,24 @@
+.saveProfileContainer {
+  .profileTitle {
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .profileInfoContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+
+    .getProfileInfo {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+
+      .tags {
+        font-family: sans-serif;
+      }
+    }
+  }
+}

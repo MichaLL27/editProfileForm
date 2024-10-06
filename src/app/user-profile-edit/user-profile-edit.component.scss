@@ -1,63 +1,95 @@
 .userProfileEditContainer {
+  height: 100vh;
+  background-color: #f2f2f2;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
 
-  .user-profile-card {
-    width: 400px;
-    padding: 20px;
-    background-color: #e0e0e0;
+  .bothContainer {
+    width: 80%;
+    display: flex;
+    justify-content: space-around;
 
-    mat-form-field {
+    .user-profile-card {
+      width: 400px;
+      padding: 20px;
+      background-color: #e0e0e0;
+
+      mat-form-field {
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        border-radius: 10px;
+      }
+
+      mat-form-field input {
+        color: #424242;
+      }
+
+      mat-label {
+        color: rgb(0, 0, 0);
+      }
+
+      .file-input input {
+        background-color: transparent;
+        border-radius: 4px;
+      }
+
+      mat-card-title {
+        text-align: center;
+        font-weight: bold;
+        color: #424242;
+        margin-bottom: 20px;
+      }
+
+      .full-width {
+        width: 100%;
+      }
+    }
+    .file-input-container {
       margin-bottom: 20px;
       background-color: #f5f5f5;
-      border-radius: 10px;
-    }
-
-    mat-form-field input {
-      color: #424242;
-    }
-
-    mat-label {
-      color: rgb(0, 0, 0);
-    }
-
-    .file-input input {
-      background-color: transparent;
+      padding: 10px;
       border-radius: 4px;
     }
 
-    mat-card-title {
-      text-align: center;
-      font-weight: bold;
+    .file-input-container label {
+      display: block;
+      margin-bottom: 5px;
       color: #424242;
-      margin-bottom: 20px;
     }
 
-    .full-width {
+    .file-input-container input {
       width: 100%;
     }
-  }
-  .file-input-container {
-    margin-bottom: 20px;
-    background-color: #f5f5f5;
-    padding: 10px;
-    border-radius: 4px;
-  }
 
-  .file-input-container label {
-    display: block;
-    margin-bottom: 5px;
-    color: #424242;
-  }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
 
-  .file-input-container input {
-    width: 100%;
-  }
+      .saveButton {
+        height: 40px;
+        border-radius: 10px;
+        background: gray;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
 
-  button {
-    width: 100%;
+      .cancelButton {
+        height: 40px;
+        color: black;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid gray;
+        cursor: pointer;
+      }
+    }
+
+    app-profile-info {
+      background-color: #e0e0e0;
+      width: 20%;
+      padding: 10px 30px;
+    }
   }
 }

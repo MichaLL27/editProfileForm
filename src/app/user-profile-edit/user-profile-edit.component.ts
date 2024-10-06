@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { UserServiceService } from './service/user-service.service';
+import { ProfileInfoComponent } from './profile-info/profile-info.component';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -24,6 +25,7 @@ import { UserServiceService } from './service/user-service.service';
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
+    ProfileInfoComponent,
   ],
   templateUrl: './user-profile-edit.component.html',
   styleUrl: './user-profile-edit.component.scss',
@@ -51,7 +53,12 @@ export class UserProfileEditComponent implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file = event?.target?.files[0];
-    if (file) this.userEditProfileForm.patchValue({ profilePicture: file });
+    let reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (event: any) => {
+      const imgUrl = event.target.result;
+      this.userEditProfileForm.patchValue({ profilePicture: imgUrl });
+    };
+    console.log(this.userEditProfileForm.value);
   }
 }

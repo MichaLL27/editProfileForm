@@ -12,6 +12,7 @@ export class UserServiceService {
     lastName: 'Lazarashvili',
     email: 'lazarashvili2704@gmail.com',
     phoneNumber: '595024131',
+    profilePicutre: null,
   };
 
   getUserFormData(): Observable<any> {
