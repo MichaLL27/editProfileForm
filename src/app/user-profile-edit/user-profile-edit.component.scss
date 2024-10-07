@@ -44,52 +44,61 @@
       .full-width {
         width: 100%;
       }
-    }
-    .file-input-container {
-      margin-bottom: 20px;
-      background-color: #f5f5f5;
-      padding: 10px;
-      border-radius: 4px;
+      .file-input-container {
+        margin-bottom: 20px;
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+      }
+  
+      .file-input-container label {
+        display: block;
+        margin-bottom: 5px;
+        color: #424242;
+      }
+  
+      .file-input-container input {
+        width: 100%;
+      }
+      .button-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+  
+        .saveButton {
+          height: 40px;
+          border-radius: 10px;
+          background: gray;
+          color: white;
+          border: none;
+          cursor: pointer;
+        }
+  
+        .cancelButton {
+          height: 40px;
+          color: black;
+          background: white;
+          border-radius: 10px;
+          border: 1px solid gray;
+          cursor: pointer;
+        }
+      }
     }
 
-    .file-input-container label {
-      display: block;
-      margin-bottom: 5px;
-      color: #424242;
-    }
-
-    .file-input-container input {
+    .previewCon {
       width: 100%;
-    }
-
-    .button-group {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      padding-bottom: 20px;
 
-      .saveButton {
-        height: 40px;
-        border-radius: 10px;
-        background: gray;
-        color: white;
-        border: none;
-        cursor: pointer;
+      .preview {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        text-align: center;
       }
-
-      .cancelButton {
-        height: 40px;
-        color: black;
-        background: white;
-        border-radius: 10px;
-        border: 1px solid gray;
-        cursor: pointer;
-      }
-    }
-
-    app-profile-info {
-      background-color: #e0e0e0;
-      width: 20%;
-      padding: 10px 30px;
     }
   }
 }

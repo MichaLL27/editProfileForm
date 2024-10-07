@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { UserServiceService } from './service/user-service.service';
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
+import { LoadingService } from '../spinner/service/loading.service';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -32,9 +33,10 @@ import { ProfileInfoComponent } from './profile-info/profile-info.component';
 })
 export class UserProfileEditComponent implements OnInit {
 
-  editProfile: boolean = false;
+  profileInfo: boolean = true;
+  imgUrl?: string
 
-  constructor(private userServiceService: UserServiceService) {}
+  constructor(private userServiceService: UserServiceService, private loadingService: LoadingService) {}
   ngOnInit(): void {
     this.userServiceService.getUserFormData().subscribe((data) => {
       this.userEditProfileForm.patchValue(data);
@@ -46,25 +48,40 @@ export class UserProfileEditComponent implements OnInit {
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
     phoneNumber: new FormControl(''),
-    profilePicture: new FormControl(null),
+    profilePicture: new FormControl(''),
   });
 
   onFileSelected(event: any) {
     let reader = new FileReader();
     reader.readAsDataURL(event.target.files[0]);
     reader.onload = (event: any) => {
-      const imgUrl = event.target.result;
-      this.userEditProfileForm.patchValue({ profilePicture: imgUrl });
+      this.imgUrl = event.target.result;
+      this.userEditProfileForm.patchValue({ profilePicture: this.imgUrl });
     };
   }
 
   onSubmit() {
     if (this.userEditProfileForm.valid) {
-      this.userServiceService
-        .updateUserFormData(this.userEditProfileForm.value)
-        .subscribe((updatedData) => {
-          console.log('Form submitted and data updated:', updatedData);
-        });
+      this.loadingService.show(); 
+      this.userServiceService.updateUserFormData(this.userEditProfileForm.value).subscribe({
+        next: (updatedData) => {
+          setTimeout(() => {
+            this.loadingService.hide(); 
+            this.profileInfo = true;
+          }, 4000);
+        },
+        error: (error) => {
+          this.loadingService.hide();
+          alert('Failed to update profile. Please try again.');
+        }
+      });
+    } else {
+      console.error('Form is invalid, cannot submit');
     }
+  }
+  
+
+  onEditProfile() {
+    this.profileInfo = false;
   }
 }

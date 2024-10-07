@@ -1,4 +1,9 @@
 .saveProfileContainer {
+  background-color: #e0e0e0;
+  width: 100%;
+  padding: 10px 30px;
+  border-radius: 10px;
+  
   .profileTitle {
     font-weight: bold;
     font-size: 20px;
@@ -33,6 +38,15 @@
       .tags {
         font-family: sans-serif;
       }
+    }
+
+    .editButton {
+      cursor: pointer;
+      font-size: 15px;
+      color: white;
+      background-color: black;
+      height: 40px;
+      border-radius: 5px;
     }
   }
 }

@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { UserServiceService } from '../service/user-service.service';
 import { CommonModule } from '@angular/common';
-import { log } from 'console';
 
 @Component({
   selector: 'app-profile-info',
@@ -11,13 +10,18 @@ import { log } from 'console';
   styleUrl: './profile-info.component.scss',
 })
 export class ProfileInfoComponent implements OnInit {
+  @Output() editProfile = new EventEmitter<boolean>();
   constructor(private userServiceService: UserServiceService) {}
-
   profileInfo: any;
 
+
   ngOnInit(): void {
-    this.userServiceService.getUserFormData().subscribe((x) => {
-      this.profileInfo = x;
+    this.userServiceService.getUserFormData().subscribe((data) => {
+      this.profileInfo = data;
     });
+  }
+
+  editProfileInfo() {
+    this.editProfile.emit(true);
   }
 }

@@ -1,5 +1,5 @@
 <div class="userProfileEditContainer">
-  <div class="bothContainer">
+  <div class="bothContainer" *ngIf="!profileInfo">
     <mat-card class="user-profile-card">
       <mat-card-title>Edit User Profile</mat-card-title>
       <form [formGroup]="userEditProfileForm" (ngSubmit)="onSubmit()">
@@ -54,6 +54,10 @@
           <input type="file" (change)="onFileSelected($event)" />
         </div>
 
+            <div class="previewCon" *ngIf="imgUrl">
+              <img class="preview" [src]="imgUrl" alt="xd">
+            </div>
+
         <div class="button-group">
           <button
             color="primary"
@@ -75,7 +79,6 @@
         </div>
       </form>
     </mat-card>
-
-    <app-profile-info />
   </div>
+  <app-profile-info *ngIf="profileInfo"  (editProfile)="onEditProfile()"/>
 </div>
