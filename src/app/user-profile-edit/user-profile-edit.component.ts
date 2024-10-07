@@ -31,6 +31,9 @@ import { ProfileInfoComponent } from './profile-info/profile-info.component';
   styleUrl: './user-profile-edit.component.scss',
 })
 export class UserProfileEditComponent implements OnInit {
+
+  editProfile: boolean = false;
+
   constructor(private userServiceService: UserServiceService) {}
   ngOnInit(): void {
     this.userServiceService.getUserFormData().subscribe((data) => {
