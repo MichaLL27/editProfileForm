@@ -1,6 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { UserServiceService } from '../service/user-service.service';
 import { CommonModule } from '@angular/common';
+import { Observable, Subscription } from 'rxjs';
+import { LoadingService } from '../../spinner/service/loading.service';
+import { IMockDataInterface } from '../interface/mockData.interface';
 
 @Component({
   selector: 'app-profile-info',
@@ -12,15 +21,12 @@ import { CommonModule } from '@angular/common';
 export class ProfileInfoComponent implements OnInit {
   @Output() editProfile = new EventEmitter<boolean>();
   constructor(private userServiceService: UserServiceService) {}
-  profileInfo: any;
 
+  getUserFormData$!: Observable<IMockDataInterface>;
 
   ngOnInit(): void {
-    this.userServiceService.getUserFormData().subscribe((data) => {
-      this.profileInfo = data;
-    });
+    this.getUserFormData$ = this.userServiceService.getUserFormData();
   }
-  
 
   editProfileInfo() {
     this.editProfile.emit(true);

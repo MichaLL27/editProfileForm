@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormControl,
@@ -14,6 +14,9 @@ import { CommonModule } from '@angular/common';
 import { UserServiceService } from './service/user-service.service';
 import { ProfileInfoComponent } from './profile-info/profile-info.component';
 import { LoadingService } from '../spinner/service/loading.service';
+import { delay, Subscription } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { IMockDataInterface } from './interface/mockData.interface';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -26,76 +29,125 @@ import { LoadingService } from '../spinner/service/loading.service';
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
+    MatSnackBarModule,
     ProfileInfoComponent,
   ],
   templateUrl: './user-profile-edit.component.html',
   styleUrl: './user-profile-edit.component.scss',
 })
-export class UserProfileEditComponent implements OnInit {
+export class UserProfileEditComponent implements OnInit, OnDestroy {
+  constructor(
+    private userServiceService: UserServiceService,
+    private loadingService: LoadingService,
+    private snackBar: MatSnackBar
+  ) {}
 
   profileInfo: boolean = true;
-  imgUrl?: string
+  imgUrl?: string;
+  getUserFormDataSubscription$!: Subscription;
 
-  constructor(private userServiceService: UserServiceService, private loadingService: LoadingService) {}
   ngOnInit(): void {
     this.getUserData();
   }
 
   getUserData() {
-    this.userServiceService.getUserFormData().subscribe({
-      next: (data) => {
-        this.userEditProfileForm.patchValue(data);
-      },
-      error: (error) => {
-        alert('Failed to load user data. Please try again.');
-      }
-    });
+    this.loadingService.show();
+    this.getUserFormDataSubscription$ = this.userServiceService
+      .getUserFormData()
+      .subscribe({
+        next: (data) => {
+          this.loadingService.hide();
+          this.userEditProfileForm.patchValue(data);
+        },
+        error: (error) => {
+          this.loadingService.hide();
+          alert('Failed to load user data. Please try again.');
+        },
+      });
   }
-  
 
   userEditProfileForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
     lastName: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    phoneNumber: new FormControl(''),
+    phoneNumber: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[0-9]*$'),
+    ]),
     profilePicture: new FormControl(''),
   });
 
-  onFileSelected(event: any) {
-    let reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (event: any) => {
-      this.imgUrl = event.target.result;
-      this.userEditProfileForm.patchValue({ profilePicture: this.imgUrl });
-    };
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.readAsDataURL(input.files[0]);
+      reader.onload = (event: ProgressEvent<FileReader>) => {
+        if (event.target) {
+          this.userEditProfileForm.patchValue({
+            profilePicture: event.target.result as string,
+          });
+        }
+      };
+    }
   }
 
   onSubmit() {
     if (this.userEditProfileForm.valid) {
-      this.loadingService.show(); 
-      this.userServiceService.updateUserFormData(this.userEditProfileForm.value).subscribe({
-        next: (updatedData) => {
-          setTimeout(() => {
-            this.loadingService.hide(); 
+      const sanitizedData: IMockDataInterface = {
+        firstName: this.userEditProfileForm.get('firstName')?.value || '',
+        lastName: this.userEditProfileForm.get('lastName')?.value || '',
+        email: this.userEditProfileForm.get('email')?.value || '',
+        phoneNumber: this.userEditProfileForm.get('phoneNumber')?.value || '',
+        profilePicture:
+          this.userEditProfileForm.get('profilePicture')?.value || '',
+      };
+
+      this.loadingService.show();
+      this.userServiceService
+        .updateUserFormData(sanitizedData)
+        .pipe(delay(2000))
+        .subscribe({
+          next: (updatedData: IMockDataInterface) => {
+            this.loadingService.hide();
             this.profileInfo = true;
-          }, 4000);
-        },
-        error: (error) => {
-          this.loadingService.hide();
-          alert('Failed to update profile. Please try again.');
-        }
-      });
-    } else {
-      console.error('Form is invalid, cannot submit');
+
+            // Succes message
+            this.snackBar.open('Profile updated successfully!', 'Close', {
+              duration: 3000,
+              panelClass: ['success-snackbar'],
+              horizontalPosition: 'center',
+              verticalPosition: 'top',
+            });
+          },
+          error: (error) => {
+            this.loadingService.hide();
+
+            // Error message
+            this.snackBar.open(
+              'Failed to update profile. Please try again.',
+              'Close',
+              {
+                duration: 3000,
+                panelClass: ['error-snackbar'],
+                horizontalPosition: 'center',
+                verticalPosition: 'top',
+              }
+            );
+          },
+        });
     }
   }
 
   cancelButton() {
     this.getUserData();
   }
-  
 
   onEditProfile() {
     this.profileInfo = false;
+  }
+
+  ngOnDestroy(): void {
+    this.getUserFormDataSubscription$.unsubscribe();
   }
 }

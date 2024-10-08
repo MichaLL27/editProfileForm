@@ -1,4 +1,7 @@
-<div class="saveProfileContainer">
+<div
+  class="saveProfileContainer"
+  *ngIf="getUserFormData$ | async as profileInfo; else loading"
+>
   <h1 class="profileTitle">Profile</h1>
 
   <div class="imageCon">
@@ -12,15 +15,15 @@
   <div class="profileInfoContainer">
     <div class="getProfileInfo">
       <p class="tags">First Name:</p>
-      <p>{{ profileInfo?.firstName }}</p>
+      <p>{{ profileInfo.firstName }}</p>
     </div>
     <div class="getProfileInfo">
       <p class="tags">Last Name:</p>
-      <p>{{ profileInfo?.lastName }}</p>
+      <p>{{ profileInfo.lastName }}</p>
     </div>
     <div class="getProfileInfo">
       <p class="tags">Email:</p>
-      <p>{{ profileInfo?.email }}</p>
+      <p>{{ profileInfo.email }}</p>
     </div>
 
     <div class="getProfileInfo">
@@ -31,3 +34,6 @@
     <button (click)="editProfileInfo()" class="editButton">Edit</button>
   </div>
 </div>
+<ng-template #loading>
+  <p>Loading user data...</p>
+</ng-template>
