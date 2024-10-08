@@ -42,14 +42,11 @@ export class UserProfileEditComponent implements OnInit {
   }
 
   getUserData() {
-    this.loadingService.show(); 
     this.userServiceService.getUserFormData().subscribe({
       next: (data) => {
         this.userEditProfileForm.patchValue(data);
-        this.loadingService.hide();
       },
       error: (error) => {
-        this.loadingService.hide(); 
         alert('Failed to load user data. Please try again.');
       }
     });
