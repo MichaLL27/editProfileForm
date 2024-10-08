@@ -2,7 +2,7 @@
   <div class="bothContainer" *ngIf="!profileInfo">
     <mat-card class="user-profile-card">
       <mat-card-title>Edit User Profile</mat-card-title>
-      <form [formGroup]="userEditProfileForm" (ngSubmit)="onSubmit()">
+      <form [formGroup]="userEditProfileForm" >
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>First Name</mat-label>
           <input matInput formControlName="firstName" required />
@@ -63,16 +63,16 @@
             color="primary"
             type="submit"
             class="saveButton"
+            (click)="onSubmit()"
             [disabled]="!userEditProfileForm.valid"
           >
             Save
           </button>
 
           <button
-            color="primary"
-            type="submit"
+            type="cancel"
             class="cancelButton"
-            [disabled]="!userEditProfileForm.valid"
+            (click)="cancelButton()"
           >
             Cancel
           </button>

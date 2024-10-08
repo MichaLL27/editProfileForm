@@ -20,6 +20,7 @@ export class ProfileInfoComponent implements OnInit {
       this.profileInfo = data;
     });
   }
+  
 
   editProfileInfo() {
     this.editProfile.emit(true);

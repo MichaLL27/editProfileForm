@@ -38,10 +38,23 @@ export class UserProfileEditComponent implements OnInit {
 
   constructor(private userServiceService: UserServiceService, private loadingService: LoadingService) {}
   ngOnInit(): void {
-    this.userServiceService.getUserFormData().subscribe((data) => {
-      this.userEditProfileForm.patchValue(data);
+    this.getUserData();
+  }
+
+  getUserData() {
+    this.loadingService.show(); 
+    this.userServiceService.getUserFormData().subscribe({
+      next: (data) => {
+        this.userEditProfileForm.patchValue(data);
+        this.loadingService.hide();
+      },
+      error: (error) => {
+        this.loadingService.hide(); 
+        alert('Failed to load user data. Please try again.');
+      }
     });
   }
+  
 
   userEditProfileForm = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
@@ -78,6 +91,10 @@ export class UserProfileEditComponent implements OnInit {
     } else {
       console.error('Form is invalid, cannot submit');
     }
+  }
+
+  cancelButton() {
+    this.getUserData();
   }
   
 
