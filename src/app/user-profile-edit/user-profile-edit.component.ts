@@ -79,16 +79,18 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
+    if (input.files && input.files.length > 0) {
       const reader = new FileReader();
       reader.readAsDataURL(input.files[0]);
       reader.onload = (event: ProgressEvent<FileReader>) => {
         if (event.target) {
-          this.userEditProfileForm.patchValue({
-            profilePicture: event.target.result as string,
-          });
+          this.imgUrl = event.target.result as string;
+          this.userEditProfileForm.patchValue({ profilePicture: this.imgUrl });
         }
       };
+    } else {
+      this.imgUrl = undefined;
+      this.userEditProfileForm.patchValue({ profilePicture: '' });
     }
   }
 
